@@ -23,9 +23,13 @@ uninstall_checkuser() {
         echo "Checkuser desinstalado com sucesso."
 }
 	
-	
-	
-	
+check_installed() {
+    if [ -f "/usr/lib/chuser/atx.py" ]; then
+        return 0  # Já instalado
+    else
+        return 1  # Não instalado
+    fi
+}
 	
 	
 fun_bar() {
