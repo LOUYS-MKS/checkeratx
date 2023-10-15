@@ -25,9 +25,9 @@ rm /bin/chkuser > /dev/null 2>&1
 sleep 5
 cd /bin || exit
 wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/chkuser > /dev/null 2>&1
-wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/userscheck > /dev/null 2>&1
+wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/userschk > /dev/null 2>&1
 chmod 777 chkuser > /dev/null 2>&1
-chmod 777 userscheck > /dev/null 2>&1
+chmod 777 userschk > /dev/null 2>&1
 
 clear
 mkdir /usr/lib/checkuser > /dev/null 2>&1

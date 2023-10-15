@@ -18,7 +18,7 @@ uninstall_checkuser() {
         pkill -f atx.py  
         rm -f /usr/lib/checkuser/atx.py  
         rm -f /usr/bin/chkuser  
-        rm -f /usr/bin/userscheck  
+        rm -f /usr/bin/userschk  
         rm -f /root/instcheck.sh
         rmdir /usr/lib/checkuser 
         echo "Checkuser desinstalado com sucesso."
