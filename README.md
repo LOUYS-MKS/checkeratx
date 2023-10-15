@@ -32,4 +32,4 @@ Copie o código de instalação:
 ```bash
 curl -s -o instcheck.sh -L https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/instcheck.sh
 chmod +x instcheck.sh
-./instcheck.sh && chkuser
+./instcheck.sh && chuser
