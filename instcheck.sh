@@ -28,6 +28,7 @@ wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/chuser > /dev/n
 wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/userscheck > /dev/null 2>&1
 chmod 777 chuser > /dev/null 2>&1
 chmod 777 userscheck > /dev/null 2>&1
+wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/unistcheck.sh > /dev/null 2>&1
 clear
 mkdir /usr/lib/checkuser > /dev/null 2>&1
 cd /usr/lib/checkuser || exit
