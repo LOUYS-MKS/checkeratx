@@ -1,7 +1,7 @@
 #!/bin/bash
 
 check_installed() {
-    if [ -f "/usr/lib/chuser/atx.py" ]; then
+    if [ -f "/usr/lib/chkuser/atx.py" ]; then
         return 0  # Já instalado
     else
         return 1  # Não instalado
@@ -21,14 +21,14 @@ clear
 echo -e "\n\033[1;36mINICIANDO INSTALAÇÃO \033[1;33mAGUARDE..."
 apt-get install figlet -y > /dev/null 2>&1
 pip3 install flask > /dev/null 2>&1
-rm /bin/chuser > /dev/null 2>&1
+rm /bin/chkuser > /dev/null 2>&1
 sleep 5
 cd /bin || exit
-wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/chuser > /dev/null 2>&1
+wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/chkuser > /dev/null 2>&1
 wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/userscheck > /dev/null 2>&1
-chmod 777 chuser > /dev/null 2>&1
+chmod 777 chkuser > /dev/null 2>&1
 chmod 777 userscheck > /dev/null 2>&1
-wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/unistcheck.sh > /dev/null 2>&1
+
 clear
 mkdir /usr/lib/checkuser > /dev/null 2>&1
 cd /usr/lib/checkuser || exit
@@ -40,7 +40,7 @@ echo -e "        \033[1;33m • \033[1;32mINSTALAÇÃO CONCLUÍDA\033[1;33m • 
 sleep 2
 clear
 echo ""
-echo -e "\033[1;31m \033[1;33mCOMANDO PRINCIPAL: \033[1;32mchuser\033[0m"
+echo -e "\033[1;31m \033[1;33mCOMANDO PRINCIPAL: \033[1;32mchkuser\033[0m"
 echo ""
 echo -e "\033[1;33m MAIS INFORMAÇÕES \033[1;31m(\033[1;36mTELEGRAM\033[1;31m): \033[1;37m@LOUYSZHX\033[0m"
 cat /dev/null > ~/.bash_history && history -c
