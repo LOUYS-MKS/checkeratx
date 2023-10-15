@@ -14,7 +14,6 @@ verif_ptrs() {
 	}
 	
 uninstall_checkuser() {
-    if check_installed; then
         echo "Desinstalando o Checkuser..."
         pkill -f atx.py  
         rm -f /usr/lib/checkuser/atx.py  
@@ -22,9 +21,6 @@ uninstall_checkuser() {
         rm -f /usr/bin/userscheck  
         rmdir /usr/lib/checkuser 
         echo "Checkuser desinstalado com sucesso."
-    else
-        echo "O Checkuser não está instalado."
-    fi
 }
 	
 	
