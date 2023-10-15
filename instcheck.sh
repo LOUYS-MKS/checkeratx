@@ -12,7 +12,7 @@ echo "America/Sao_Paulo" > /etc/timezone
 ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime > /dev/null 2>&1
 dpkg-reconfigure --frontend noninteractive tzdata > /dev/null 2>&1
 clear
-echo -e "\E[44;1;37m    INSTALAR CHECKUSER checkeratx4G     \E[0m" 
+echo -e "\E[44;1;37m    INSTALAR CHECKUSER ATX TUNNEL     \E[0m" 
 echo ""
 echo -e "                 \033[1;31mBy @LOUYSZHX\033[1;36m"
 echo ""
