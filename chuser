@@ -23,7 +23,7 @@ uninstall_checkuser() {
         rmdir /usr/lib/checkuser 
         echo "Checkuser desinstalado com sucesso."
         sleep 2
-        rm -f /root/instcheck
+        rm -f /root/instcheck.sh
 }
 	
 check_installed() {
