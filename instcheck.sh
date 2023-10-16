@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+sudo apt update && sudo apt upgrade
+sudo apt-get install dialog
+sleep 7
+echo "Aguarde..."
+
 check_installed() {
     if [ -f "/usr/lib/chuser/atx.py" ]; then
         return 0  # Já instalado
