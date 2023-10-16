@@ -2,8 +2,6 @@
 
 IP=$(wget -qO- ipv4.icanhazip.com)
 
-checkuser_status="OFF"
-
 verif_ptrs() {
     porta=$1
     PT=$(lsof -V -i tcp -P -n | grep -v "ESTABLISHED" | grep -v "COMMAND" | grep "LISTEN")
@@ -27,7 +25,6 @@ uninstall_checkuser() {
     rmdir /usr/lib/checkuser
     dialog --msgbox "Checkuser desinstalado com sucesso." 7 40
     sleep 2
-    checkuser_status="OFF"
 }
 
 check_installed() {
@@ -70,20 +67,13 @@ clear
 
 fun_chuser() {
     while true; do
-        if [ "$checkuser_status" = "ON" ]; then
-            status="Ativado"
-        else
-            status="Desativado"
-        fi
-
-        resposta=$(dialog --menu "GERENCIAR CHECKUSER (Status: $status)" 15 40 7 \
-            1 "Alternar Checkuser" \
+        resposta=$(dialog --menu "GERENCIAR CHECKUSER" 15 40 7 \
+            1 "ATIVAR CHECKUSER" \
             2 "DESINSTALAR CHECKUSER" \
             0 "VOLTAR" 3>&1 1>&2 2>&3)
-
         case $resposta in
             1)
-                if [ "$checkuser_status" = "ON" ]; then
+                if ps x | grep -w atx.py | grep -v grep 1>/dev/null 2>/dev/null; then
                     clear
                     dialog --infobox "DESATIVANDO O CHECKUSER" 5 40
                     fun_socksoff() {
@@ -99,7 +89,6 @@ fun_chuser() {
                     fun_bar 'fun_socksoff'
                     dialog --infobox "CHECKUSER DESATIVADO COM SUCESSO!" 5 40
                     sleep 3
-                    checkuser_status="OFF"
                 else
                     clear
                     porta=$(dialog --inputbox "QUAL PORTA DESEJA UTILIZAR?" 8 40 3>&1 1>&2 2>&3)
@@ -109,21 +98,27 @@ fun_chuser() {
                         fun_chuser
                     fi
                     verif_ptrs $porta
-                    fun_inisocks() {
-                        sleep 1
-                        screen -dmS checkuser python3 /usr/lib/atx/atx.py $porta
-                        if [ $(grep -wc "atx" /etc/autostart) = '0' ]; then
-                            echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
-                        else
-                            sed -i '/atx/d' /etc/autostart
-                            echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
-                        fi
-                    }
+fun_inisocks() {
+    sleep 1
+    screen -dmS checkuser python3 /usr/lib/atx/atx.py $porta
+    if [ $(grep -wc "atx" /etc/autostart) = '0' ]; then
+        echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
+    else
+        sed -i '/atx/d' /etc/autostart
+        echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
+    fi
+
+    # Obtém o IP do servidor
+    IP=$(wget -qO- ipv4.icanhazip.com)
+
+    # Exibe o link para o Checkuser
+    dialog --msgbox "CHECKUSER ATIVADO COM SUCESSO\nLink: http://$IP:$porta/checkUser" 9 50
+}
+
                     dialog --infobox "INICIANDO O CHECKUSER" 5 40
                     fun_bar 'fun_inisocks'
                     dialog --infobox "CHECKUSER ATIVADO COM SUCESSO" 5 40
                     sleep 3
-                    checkuser_status="ON"
                 fi
                 ;;
             2)
