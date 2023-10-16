@@ -24,6 +24,9 @@ Com nosso Sistema de CheckUser:
 
 Por favor, observe que este projeto não é de código aberto e não está disponível para edições externas. Este é um sistema proprietário desenvolvido e mantido exclusivamente pela equipe do ATX TUNNEL.
 
+
+
+
 ## ⬇️ Instalação
 
 Para instalar o CHECKUSER:
@@ -33,9 +36,11 @@ Copie o código de instalação:
 curl -s -o instcheck.sh -L https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/instcheck.sh
 chmod +x instcheck.sh
 ./instcheck.sh && chuser
+```
 
 ## ⬇️ Exemplo de Checkuser
 
 ```
 http://seuip:porta/checkUser
+```
 
