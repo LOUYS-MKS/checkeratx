@@ -1,7 +1,6 @@
 #!/bin/bash
 
 IP=$(wget -qO- ipv4.icanhazip.com)
-CHECKUSER_STATUS="OFF"
 
 verif_ptrs() {
     porta=$1
@@ -24,16 +23,15 @@ uninstall_checkuser() {
     rm -f /usr/bin/userscheck
     rm -f /root/instcheck.sh
     rmdir /usr/lib/checkuser
-    CHECKUSER_STATUS="OFF"
     dialog --msgbox "Checkuser desinstalado com sucesso." 7 40
     sleep 2
 }
 
 check_installed() {
     if [ -f "/usr/lib/chuser/atx.py" ]; then
-        CHECKUSER_STATUS="ON"
+        return 0  # Já instalado
     else
-        CHECKUSER_STATUS="OFF"
+        return 1  # Não instalado
     fi
 }
 
@@ -69,20 +67,13 @@ clear
 
 fun_chuser() {
     while true; do
-        if [ "$CHECKUSER_STATUS" = "ON" ]; then
-            resposta=$(dialog --menu "GERENCIAR CHECKUSER" 15 40 6 \
-                2 "DESATIVAR CHECKUSER" \
-                1 "VOLTAR" 3>&1 1>&2 2>&3)
-        else
-            resposta=$(dialog --menu "GERENCIAR CHECKUSER" 15 40 7 \
-                1 "ATIVAR CHECKUSER" \
-                2 "DESINSTALAR CHECKUSER" \
-                0 "VOLTAR" 3>&1 1>&2 2>&3)
-        fi
-
+        resposta=$(dialog --menu "GERENCIAR CHECKUSER" 15 40 7 \
+            1 "ATIVAR CHECKUSER" \
+            2 "DESINSTALAR CHECKUSER" \
+            0 "VOLTAR" 3>&1 1>&2 2>&3)
         case $resposta in
             1)
-                if [ "$CHECKUSER_STATUS" = "ON" ]; then
+                if ps x | grep -w atx.py | grep -v grep 1>/dev/null 2>/dev/null; then
                     clear
                     dialog --infobox "DESATIVANDO O CHECKUSER" 5 40
                     fun_socksoff() {
@@ -98,7 +89,6 @@ fun_chuser() {
                     fun_bar 'fun_socksoff'
                     dialog --infobox "CHECKUSER DESATIVADO COM SUCESSO!" 5 40
                     sleep 3
-                    CHECKUSER_STATUS="OFF"
                 else
                     clear
                     porta=$(dialog --inputbox "QUAL PORTA DESEJA UTILIZAR?" 8 40 3>&1 1>&2 2>&3)
@@ -122,7 +112,6 @@ fun_chuser() {
                     fun_bar 'fun_inisocks'
                     dialog --infobox "CHECKUSER ATIVADO COM SUCESSO" 5 40
                     sleep 3
-                    CHECKUSER_STATUS="ON"
                 fi
                 ;;
             2)
