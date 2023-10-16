@@ -27,15 +27,19 @@ fi
 
 clear
 dialog --infobox "Iniciando instalação. Aguarde..." 5 40
+
+# Adicione uma animação de progresso
+{
+    for i in {1..5}; do
+        echo "XXX"
+        sleep 1
+    done
+} | dialog --gauge "Instalando..." 7 40 0
+
 apt-get install figlet -y > /dev/null 2>&1
 pip3 install flask > /dev/null 2>&1
 rm /bin/chkuser > /dev/null 2>&1
 sleep 5
-cd /bin || exit
-wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/chkuser > /dev/null 2>&1
-wget https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/userschk > /dev/null 2>&1
-chmod 777 chkuser > /dev/null 2>&1
-chmod 777 userschk > /dev/null 2>&1
 
 clear
 dialog --infobox "Concluindo a instalação..." 5 40
