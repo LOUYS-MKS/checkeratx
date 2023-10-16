@@ -15,6 +15,16 @@ verif_ptrs() {
     done
 }
 
+create_checkuser_link() {
+    if [ $(netstat -nplt | grep -wc 'python3') != '0' ]; then
+        local checkuser_port=$(netstat -nplt | grep 'python3' | awk {'print $4'} | cut -d: -f2 | xargs)
+        local checkuser_link="http://$IP:$checkuser_port/checkUser"
+        echo "$checkuser_link"
+    else
+        echo "CHECKUSER ESTÁ DESATIVADO"
+    fi
+}
+
 uninstall_checkuser() {
     dialog --infobox "Desinstalando o Checkuser..." 5 40
     pkill -f atx.py
@@ -98,27 +108,24 @@ fun_chuser() {
                         fun_chuser
                     fi
                     verif_ptrs $porta
-fun_inisocks() {
-    sleep 1
-    screen -dmS checkuser python3 /usr/lib/atx/atx.py $porta
-    if [ $(grep -wc "atx" /etc/autostart) = '0' ]; then
-        echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
-    else
-        sed -i '/atx/d' /etc/autostart
-        echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
-    fi
-
-    # Obtém o IP do servidor
-    IP=$(wget -qO- ipv4.icanhazip.com)
-
-    # Exibe o link para o Checkuser
-    dialog --msgbox "CHECKUSER ATIVADO COM SUCESSO\nLink: http://$IP:$porta/checkUser" 9 50
-}
-
+                    fun_inisocks() {
+                        sleep 1
+                        screen -dmS checkuser python3 /usr/lib/atx/atx.py $porta
+                        if [ $(grep -wc "atx" /etc/autostart) = '0' ]; then
+                            echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
+                        else
+                            sed -i '/atx/d' /etc/autostart
+                            echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'atx' -X quit;  screen -dmS checkuser python3 /usr/lib/checkuser/atx.py $porta; }" >>/etc/autostart
+                        fi
+                    }
                     dialog --infobox "INICIANDO O CHECKUSER" 5 40
                     fun_bar 'fun_inisocks'
                     dialog --infobox "CHECKUSER ATIVADO COM SUCESSO" 5 40
                     sleep 3
+
+                    # Cria o link do Checkuser
+                    checkuser_link=$(create_checkuser_link)
+                    dialog --msgbox "Link do Checkuser: $checkuser_link" 7 50
                 fi
                 ;;
             2)
