@@ -33,3 +33,9 @@ Copie o código de instalação:
 curl -s -o instcheck.sh -L https://raw.githubusercontent.com/LOUYS-MKS/checkeratx/main/instcheck.sh
 chmod +x instcheck.sh
 ./instcheck.sh && chuser
+
+## ⬇️ Exemplo de Checkuser
+
+```
+http://seuip:porta/checkUser
+
