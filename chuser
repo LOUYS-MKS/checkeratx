@@ -91,12 +91,19 @@ fun_chuser() {
                     sleep 3
                 else
                     clear
+                    dominio=$(dialog --inputbox "QUAL DOMÍNIO DESEJA UTILIZAR?" 8 40 3>&1 1>&2 2>&3)
+                    if [ -z "$dominio" ]; then
+                        dialog --msgbox "Domínio inválido!" 7 40
+                        sleep 3
+                        fun_chuser
+                    fi
                     porta=$(dialog --inputbox "QUAL PORTA DESEJA UTILIZAR?" 8 40 3>&1 1>&2 2>&3)
                     if [ -z "$porta" ]; then
                         dialog --msgbox "Porta inválida!" 7 40
                         sleep 3
                         fun_chuser
                     fi
+                    link="http://$dominio:$porta/checkUser"
                     verif_ptrs $porta
                     fun_inisocks() {
                         sleep 1
@@ -110,7 +117,7 @@ fun_chuser() {
                     }
                     dialog --infobox "INICIANDO O CHECKUSER" 5 40
                     fun_bar 'fun_inisocks'
-                    dialog --infobox "CHECKUSER ATIVADO COM SUCESSO" 5 40
+                    dialog --infobox "CHECKUSER ATIVADO COM SUCESSO\n\nLink: $link\n\nAguarde um momento, a porta pode demorar para subir." 10 60
                     sleep 3
                 fi
                 ;;
