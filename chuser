@@ -67,7 +67,7 @@ clear
 
 fun_chuser() {
     while true; do
-        resposta=$(dialog --menu "GERENCIAR CHECKUSER" 15 40 7 \
+        resposta=$(dialog --menu "GERENCIADOR CHECKUSER\nATX TUNNEL\n\nBy: @Louyszhx" 15 40 7 \
             1 "ATIVAR CHECKUSER" \
             2 "DESINSTALAR CHECKUSER" \
             0 "VOLTAR" 3>&1 1>&2 2>&3)
@@ -117,8 +117,8 @@ fun_chuser() {
                     }
                     dialog --infobox "INICIANDO O CHECKUSER" 5 40
                     fun_bar 'fun_inisocks'
-                    dialog --infobox "CHECKUSER ATIVADO COM SUCESSO\n\nLink: $link\n\nAguarde um momento, a porta pode demorar para subir." 10 60
-                    sleep 3
+                    dialog --infobox "CHECKUSER ATIVADO COM SUCESSO\n\nLink: $link\n\nAguarde um momento, a porta pode demorar para abrir." 10 60
+                    sleep 10
                 fi
                 ;;
             2)
