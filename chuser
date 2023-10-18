@@ -50,7 +50,7 @@ clear
 fun_chuser() {
   while true; do
     check_checkuser_status  # Verifique o status do Checkuser
-    resposta=$(dialog --menu "GERENCIADOR CHECKUSER\nATX TUNNEL\n\nStatus: $checkuser_status\nBy: @Louyszhx" 15 40 7 1 "ATIVAR CHECKUSER" 2 "DESINSTALAR CHECKUSER" 0 "VOLTAR" 3 "MOSTRAR STATUS" 3>&1 1>&2 2>&3)
+    resposta=$(dialog --menu "GERENCIADOR CHECKUSER\nATX TUNNEL\nStatus: $checkuser_status\n\nBy: @Louyszhx" 15 40 7 1 "ATIVAR CHECKUSER" 2 "DESINSTALAR CHECKUSER" 0 "VOLTAR" 3>&1 1>&2 2>&3)
     case $resposta in
       1)
         if ps x | grep -w atx.py | grep -v grep 1>/dev/null 2>/dev/null; then
@@ -93,13 +93,6 @@ fun_chuser() {
       2)
         dialog --infobox "Desinstalando o Checkuser..." 5 40
         uninstall_checkuser
-        ;;
-      3)
-        check_checkuser_status
-        dialog --msgbox "Status do Checkuser: $checkuser_status" 7 40
-        sleep 3
-        # Adicione aqui a atualização do status
-        echo "Ativado" > "$checkuser_status_file"
         ;;
       0)
         dialog --infobox "Saindo..." 5 40
