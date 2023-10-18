@@ -22,7 +22,7 @@ Com nosso Sistema de CheckUser:
 
 ## ⚙️ Uso Restrito
 
-Por favor, observe que este projeto não é de código aberto e não está disponível para edições externas. Este é um sistema proprietário desenvolvido e mantido exclusivamente pela equipe do ATX TUNNEL.
+Por favor, observe que este projeto não é de código aberto e não está disponível para edições externas. Este é um sistema proprietário desenvolvido e mantido exclusivamente pela equipe do ATX HOST.
 
 
 
