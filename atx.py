@@ -44,31 +44,29 @@ def check_dias(username: str) -> t.Optional[str]:
     final = result[0].strip()
     return final
 
-
-@app.route('/checkUser',methods = ['POST', 'GET'])
+@app.route('/checkUser', methods=['GET'])
 def check_user():
-    if request.method == 'POST':
-        try:
-            req_data = request.get_json()
-            user_get = req_data.get("user")
-            username = get_user(user_get)
-            user = get_user(username)
-            if user == "Not exist":
-                return ("{0}\"username\":\"{1}\",\"cont_conexao\":\"Null\",\"data_expiracao\":\"Null\",\"dias_expiracao\":\"Null\",\"limite_user\":\"Null\"{2}" .format(a, user, b))
-            else:
-                return ("{0}\"username\":\"{1}\",\"cont_conexao\":\"{2}\",\"data_expiracao\":\"{3}\",\"dias_expiracao\":\"{4}\",\"limite_user\":\"{5}\"{6}" .format(a, username, cont_online(username), check_data(username), check_dias(username), limiter_user(username), b))
-        except Exception as e:
-            return jsonify({'error': str(e)})
-    else:
-        try:
-            return 'Cannot GET /checkUser'
-        except Exception as e:
-            return jsonify({'error': str(e)})
-
+    try:
+        user_get = request.args.get("user")
+        username = get_user(user_get)
+        user = get_user(username)
+        if user == "Not exist":
+            return (
+                "{0}\"username\":\"{1}\",\"cont_conexao\":\"Null\",\"data_expiracao\":\"Null\",\"dias_expiracao\":\"Null\",\"limite_user\":\"Null\"{2}".format(
+                    a, user, b
+                )
+            )
+        else:
+            return (
+                "{0}\"username\":\"{1}\",\"cont_conexao\":\"{2}\",\"data_expiracao\":\"{3}\",\"dias_expiracao\":\"{4}\",\"limite_user\":\"{5}\"{6}".format(
+                    a, username, cont_online(username), check_data(username), check_dias(username), limiter_user(username), b
+                )
+            )
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
         port=int(sys.argv[1]) if len(sys.argv) > 1 else LISTENING_PORT,
     )
-
