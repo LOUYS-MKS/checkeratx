@@ -44,7 +44,7 @@ def check_dias(username: str) -> t.Optional[str]:
     final = result[0].strip()
     return final
 
-@app.route('/checkUser', methods=['GET'])
+@app.route('/check', methods=['GET'])
 def check_user():
     try:
         user_get = request.args.get("user")
