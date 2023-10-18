@@ -28,7 +28,7 @@ uninstall_checkuser() {
   rm -f /usr/bin/userscheck
   rm -f /root/instcheck.sh
   rmdir /usr/lib/checkuser
-  rm -f "$checkuser_status_file"  # Remova o arquivo de status
+  rm -f "$checkuser_status_file"
   dialog --msgbox "Checkuser desinstalado com sucesso." 7 40
   sleep 2
 }
@@ -49,8 +49,14 @@ fun_bar() {
 clear
 fun_chuser() {
   while true; do
-    check_checkuser_status  # Verifique o status do Checkuser
-    resposta=$(dialog --menu "GERENCIADOR CHECKUSER\nATX TUNNEL\nStatus: $checkuser_status\n\nBy: @Louyszhx" 15 40 7 1 "ATIVAR CHECKUSER" 2 "DESINSTALAR CHECKUSER" 0 "VOLTAR" 3>&1 1>&2 2>&3)
+check_checkuser_status 
+    if [ "$checkuser_status" = "Ativado" ]; then
+      button_text="DESATIVAR CHECKUSER"
+    else
+      button_text="ATIVAR CHECKUSER"
+    fi
+    resposta=$(dialog --menu "GERENCIADOR CHECKUSER\nATX TUNNEL\nStatus: $checkuser_status\n\nBy: @Louyszhx" 15 40 7 1 "$button_text" 2 "DESINSTALAR CHECKUSER" 0 "VOLTAR" 3>&1 1>&2 2>&3)
+
     case $resposta in
       1)
         if ps x | grep -w atx.py | grep -v grep 1>/dev/null 2>/dev/null; then
@@ -86,7 +92,6 @@ fun_chuser() {
           fun_bar 'fun_inisocks'
           dialog --infobox "CHECKUSER ATIVADO COM SUCESSO\n\nLink: $link\n\nAguarde um momento, a porta pode demorar para abrir." 10 60
           sleep 10
-          # Adicione aqui a atualização do status
           echo "Ativado" > "$checkuser_status_file"
         fi
         ;;
