@@ -1,67 +1,60 @@
-from crypt import methods
+
 import os
 import sys
-import typing as t
 import json
-
-from datetime import datetime
+import datetime
 from flask import Flask, jsonify, request
 
-a = "{"
-b = "}"
 LISTENING_PORT = int(sys.argv[1])
+
+def get_user(username: str) -> str:
+    command = f'check {username} 1'
+    result = os.popen(command).readlines()
+    return result[0].strip()
+
+def cont_online(username: str) -> str:
+    command = f'check {username} 2'
+    result = os.popen(command).readlines()
+    return result[0].strip()
+
+def limiter_user(username: str) -> str:
+    command = f'check {username} 3'
+    result = os.popen(command).readlines()
+    return result[0].strip()
+
+def check_data(username: str) -> str:
+    command = f'check {username} 4'
+    result = os.popen(command).readlines()
+    return result[0].strip()
+
+def check_dias(username: str) -> str:
+    command = f'check {username} 5'
+    result = os.popen(command).readlines()
+    return result[0].strip()
+
+def get_info(username: str) -> dict:
+    user = get_user(username)
+    if user == "Not exist":
+        return {'username': user, 'cont_conexao': 'Null', 'data_expiracao': 'Null', 'dias_expiracao': 'Null', 'limite_user': 'Null'}
+    else:
+        return {
+            'username': username,
+            'cont_conexao': cont_online(username),
+            'data_expiracao': check_data(username),
+            'dias_expiracao': check_dias(username),
+            'limite_user': limiter_user(username)
+        }
+
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['JSON_SORT_KEYS'] = False
-
-def get_user(username: str) -> t.Optional[str]:
-    command = 'check %s 1' % username
-    result = os.popen(command).readlines()
-    final = result[0].strip()
-    return final
-
-def cont_online(username: str) -> t.Optional[str]:
-    command = 'check %s 2' % username
-    result = os.popen(command).readlines()
-    final = result[0].strip()
-    return final
-
-def limiter_user(username: str) -> t.Optional[str]:
-    command = 'check %s 3' % username
-    result = os.popen(command).readlines()
-    final = result[0].strip()
-    return final
-
-def check_data(username: str) -> t.Optional[str]:
-    command = 'check %s 4' % username
-    result = os.popen(command).readlines()
-    final = result[0].strip()
-    return final
-
-def check_dias(username: str) -> t.Optional[str]:
-    command = 'check %s 5' % username
-    result = os.popen(command).readlines()
-    final = result[0].strip()
-    return final
 
 @app.route('/check', methods=['GET'])
 def check_user():
     try:
         user_get = request.args.get("user")
         username = get_user(user_get)
-        user = get_user(username)
-        if user == "Not exist":
-            return (
-                "{0}\"username\":\"{1}\",\"cont_conexao\":\"Null\",\"data_expiracao\":\"Null\",\"dias_expiracao\":\"Null\",\"limite_user\":\"Null\"{2}".format(
-                    a, user, b
-                )
-            )
-        else:
-            return (
-                "{0}\"username\":\"{1}\",\"cont_conexao\":\"{2}\",\"data_expiracao\":\"{3}\",\"dias_expiracao\":\"{4}\",\"limite_user\":\"{5}\"{6}".format(
-                    a, username, cont_online(username), check_data(username), check_dias(username), limiter_user(username), b
-                )
-            )
+        return jsonify(get_info(username))
     except Exception as e:
         return jsonify({'error': str(e)})
 
