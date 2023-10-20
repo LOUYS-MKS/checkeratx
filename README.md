@@ -41,6 +41,6 @@ chmod +x instcheck.sh
 ## ⬇️ Exemplo de Checkuser
 
 ```
-http://seuip:porta/checkUser
+http://seuip:porta/check
 ```
 
